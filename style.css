@@ -1,15 +1,40 @@
 
 body{
-	background-color: #0B1733;
+	background-color: #2f2f3A;
+	font-family: Arial, sans-serif;
+	color: #fff;
 }
 
-#emojiInput{
-	display: flex;
-	align-items: flex-start;
-	flex-direction: row;
-	color: #000000;
-	width: 100%;
+.main-ui-theme {
+	background: #1f1f2A;
+	color: #fff;
+	border-radius: 5px;
+	border: none;
+	padding: 5px;
 }
+
+button {
+	margin-top: 5px;
+}
+
+footer {
+	width: 100vw;
+	position: absolute;
+	background-color: #3f3f3A;
+	text-align: center;
+	padding: 2px 0px;
+	bottom: 0px;
+	left: 0px;
+}
+
+header {
+
+}
+
+#serverSelect {
+	margin-top: 5px;
+}
+
 
 #newImg{
 	display: flex;
@@ -22,21 +47,19 @@ body{
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	justify-content: space-around;
 }
 
-input { 
-	width: 50px;
-	height: 50px;
-	border: 2px solid #34EBCC;
-	border-radius: 4px;
+#container input {
+	margin: 5px;
+	border: none;
 }
 
-footer {
-	width: 100%;
-	background-color: #444A4A;
-	display: flex;
-	flex-direction: column-reverse;
-	margin-top:auto;
-	align-items: center;
+input#emojiInput { 
+	width: calc(100% - 10px);
+	display: block;
+	padding: 5px;
+	border: none;
+	border-radius: 5px;
+	background: #1f1f2A;
+	color: #fff;
 }
