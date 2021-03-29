@@ -21,15 +21,13 @@
 		firebase.initializeApp(config);
 	</script>
 
-	<header>
-		<input type="text" class="main-ui-theme" value="O link vai sair aqui, mas a cópia é automatica" id="emojiInput">
-		<select id="serverSelect" class="main-ui-theme" onchange="selectChanged()">
+	<div id="header">
+		<span class="main-ui-theme" id="emoji-output">O link vai sair aqui, mas a cópia é automatica</span>
+		<select id="server-select" class="main-ui-theme" onchange="updateServerSelect()">
 		</select>
-		<button class="main-ui-theme" onclick="selectChanged()">Refresh</button>
-	</header>
-	<div id="container">
-		
+		<button class="main-ui-theme" onclick="updateServerSelect()">Refresh</button>
 	</div>
+	<div id="container"></div>
 	<footer>Feito por Douglas em colaboração com Melo</footer>
 </body>
 </html>

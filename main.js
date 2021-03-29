@@ -1,13 +1,25 @@
-function copy(image){
-	//pega o texto
-	var copyText = document.getElementById("emojiInput");
-    //seleciona o texto
-    copyText.value = image;
-	copyText.select();
-	copyText.setSelectionRange(0, 99999);
-	//copia o texto
-	document.execCommand("Copy");
+let emoji_output;
+let server_select;
+let db;
+let server_list = {}
 
+window.onload = function(){
+	// Inicializar globais
+	emoji_output = document.getElementById("emoji-output");
+	server_select = document.getElementById("server-select");
+	db = firebase.database().ref("items");
+	loadList();
+}
+
+function copy(image_url){
+	// Mostra o texto
+	emoji_output.innerText = image_url;
+
+    // Copia o texto
+    navigator.clipboard.writeText(image_url).then(_ => {
+    	// Copiado com sucesso
+    	// TODO(walle): mostrar mensagem de sucesso
+    })
 }
 
 //EXEMPLO//
@@ -22,57 +34,53 @@ function adicionar(){
 }
 */
 
-window.onload = function(){
-	loadList()
-}
-
 function loadList(){
-	var dados = ""
-	var db = firebaseRef = firebase.database().ref("items")
-	db.on('value', function(snapshot){
-		var adicionado = snapshot.val();
-		//console.log(snapshot)
-		//console.log(adicionado)
-		document.getElementById("serverSelect").innerHTML = ""
-		snapshot.forEach(function(childSnapshot){
-			let key = childSnapshot.key;
-			let data = childSnapshot.val();
-			//console.log(`Chave: ${key} Data: ${data}`);
-			var node = document.createElement("OPTION");
+	db.on('value', snapshot => {
+		const data = snapshot.val();
+
+		for (key in data) {
+			if (key in server_list) continue;
+
+			const node = document.createElement("option");
 			node.setAttribute("label", key);
 			node.setAttribute("name", key);
-			if(!document.getElementById("serverSelect").querySelector(key)){
-				document.getElementById("serverSelect").appendChild(node);
-			}
-			
-		});
+
+			server_select.appendChild(node);
+		}
+
+		// Atualizar lista de emojis
+		updateServerSelect();
 	})
 }
 
 function debug(){
-	var db = firebaseRef = firebase.database().ref("items");
+	// var db = firebase.database().ref("items");
 	var node = document.createElement("OPTION");
 	node.setAttribute("label", db)
-	document.getElementById("serverSelect").appendChild(node);
+	server_select.appendChild(node);
 	//console.log(db)
 }
 
-function selectChanged(){
-	let sel = document.getElementById("serverSelect")
-	let refName = sel.options[sel.selectedIndex]
-	let refNameString = refName.label
-	//console.log(refNameString)
-	var db = firebaseRef = firebase.database().ref("items").child(refNameString)
+function updateServerSelect(){
+	
+	const selected_server = server_select.options[server_select.selectedIndex].label;
+	const emojis_db = db.child(selected_server);
+
+	// Limpar container
 	document.getElementById("container").innerHTML = ""
-	db.on('value', function(snapshot){
-		let selectedValue = snapshot.val();
-		snapshot.forEach(function(childSnapshot){
-			let gifKey = childSnapshot.key;
-			let gifData = childSnapshot.val();
-			let node = document.createElement("INPUT");
-			node.setAttribute("type", "image");
+
+	// NOTE(walle): Usar .get? acho que o atual pode adicionar valores extras
+	emojis_db.on('value', snapshot => {
+
+		snapshot.forEach(childSnapshot => {
+			// let gifKey = childSnapshot.key;
+			const gifData = childSnapshot.val();
+
+			const node = document.createElement("img");
 			node.setAttribute("src", gifData);
-			node.setAttribute("onclick", "copy(src)");
+			node.onclick = () => copy(gifData);
+			node.classList.add('emoji-item');
+
 			document.getElementById("container").appendChild(node);
 			//console.log(`Data do gif: ${gifData}, chave do gif: ${gifKey}`)
 		})
