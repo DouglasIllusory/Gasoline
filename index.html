@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript" src="main.js"></script>
+	<title>Gasoline</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="shortcu icon" href="gasolinelogo32.png">
+	<meta charset="utf-8">
+</head>
+<body>
+	<script src="https://www.gstatic.com/firebasejs/5.7.0/firebase.js"></script>
+	<script>
+		var config = {
+			apiKey: "AIzaSyBTcWTeOLYN4bpPtR2bOuj8wtw8DR7lRy0",
+			authDomain: "nitro2-fdfc2.firebaseapp.com",
+			databaseURL: "https://nitro2-fdfc2-default-rtdb.firebaseio.com/",
+			projectId: "nitro2-fdfc2",
+			storageBucket: "nitro2-fdfc2.appspot.com",
+			messagingSenderId: "1011978237559"
+		};
+		firebase.initializeApp(config);
+	</script>
+
+	<header>
+		<input type="text" value="O link vai sair aqui, mas a cópia é automatica" id="emojiInput">
+		<select id="serverSelect" onchange="selectChanged()">
+		</select>
+		<button onclick="selectChanged()">Refresh</button>
+	</header>
+	<div id="container">
+		
+	</div>
+	<footer>Feito por Douglas em colaboração com Melo</footer>
+</body>
+</html>
