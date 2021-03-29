@@ -11,14 +11,23 @@ window.onload = function(){
 	loadList();
 }
 
-function copy(image_url){
+function copy(image_url, element){
 	// Mostra o texto
 	emoji_output.innerText = image_url;
 
     // Copia o texto
     navigator.clipboard.writeText(image_url).then(_ => {
     	// Copiado com sucesso
-    	// TODO(walle): mostrar mensagem de sucesso
+    	// DONE(walle): mostrar mensagem de sucesso
+    	const blink = document.getElementsByClassName("blink")[0];
+    	const bbox = element.getBoundingClientRect();
+    	const bbox_2 = blink.getBoundingClientRect();
+    	blink.setAttribute('show', 'true');
+    	blink.style.left = `${bbox.left}px`;
+    	blink.style.top = `${bbox.bottom}px`;
+    	setTimeout(() => {
+    		blink.setAttribute('show', 'false')
+    	}, 5000);
     })
 }
 
@@ -36,11 +45,11 @@ function adicionar(){
 
 function loadList(){
 	db.on('value', snapshot => {
+		// Valores novos
 		const data = snapshot.val();
 
-		console.log(data)
-
 		for (key in data) {
+			// Se o valor já está na lista ignore
 			if (server_list.has(key)) continue;
 
 			const node = document.createElement("option");
@@ -69,19 +78,26 @@ function updateServerSelect(){
 	const selected_server = server_select.options[server_select.selectedIndex].label;
 	const emojis_db = db.child(selected_server);
 
-	// Limpar container
+	// Limpar container de emoji
 	document.getElementById("container").innerHTML = ""
 
-	// NOTE(walle): Usar .get? acho que o atual pode adicionar valores extras
+	// ~~ NOTE(walle): Usar .get? acho que o atual pode adicionar valores extras ~~
+	// NOTE(walle): User .get mesmo????
 	emojis_db.on('value', snapshot => {
 
 		snapshot.forEach(childSnapshot => {
 			// let gifKey = childSnapshot.key;
 			const gifData = childSnapshot.val();
 
-			const node = document.createElement("img");
-			node.setAttribute("src", gifData);
-			node.onclick = () => copy(gifData);
+			const node = document.createElement("div");
+			const node_img = document.createElement("img");
+
+			node.appendChild(node_img);
+			
+			node_img.setAttribute("src", gifData);
+
+
+			node.onclick = () => copy(gifData, node);
 			node.classList.add('emoji-item');
 
 			document.getElementById("container").appendChild(node);
