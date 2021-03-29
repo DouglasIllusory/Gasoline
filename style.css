@@ -1,7 +1,21 @@
+.blink {
+  	transition: opacity 0.5s ease-in;
+  	opacity: 0;
+  	position: absolute;
+  	user-select: none;
+  	/*display: none;*/
+}
+
+.blink[show=true] {
+  	opacity: 1;
+  	/*display: block;*/
+}
+
 body{
 	background-color: #2f2f3A;
 	font-family: Arial, sans-serif;
 	color: #dededa;
+	margin: 0px;
 }
 
 .main-ui-theme {
@@ -21,13 +35,13 @@ button:hover {
 }
 
 footer {
-	width: 100vw;
-	position: absolute;
+	width: calc(100vw - 10px);
+	/*position: absolute;*/
 	background-color: #3f3f3A;
 	text-align: center;
 	padding: 2px 0px;
-	bottom: 0px;
-	left: 0px;
+	/*bottom: 0px;*/
+	/*left: 0px;*/
 }
 
 .emoji-item {
@@ -37,10 +51,25 @@ footer {
 	border: none;
 	padding: 5px;
 	border-radius: 4px;
+	display: flex;
+  	justify-content: center;
+  	align-items: center;
+}
+
+.emoji-item img {
+	max-height: 45px;
+	max-width: 45px;
 }
 
 .emoji-item:hover {
 	background: #1f1f2A;
+}
+
+#app {
+	display: flex;
+	flex-direction: column;
+	height: calc(100vh - 10px);
+	padding: 5px;
 }
 
 #server-select {
@@ -60,6 +89,9 @@ footer {
 	flex-direction: row;
 	flex-wrap: wrap;
 	margin-top: 10px;
+	flex-grow: 1;
+	overflow-y: scroll;
+	align-content: flex-start;
 }
 
 /*#container input {
@@ -70,4 +102,12 @@ footer {
 #emoji-output { 
 	width: calc(100% - 10px);
 	display: block;
+}
+
+#copied-message {
+	background: #1f1f2A;
+	color: #dededa;
+	border-radius: 10px;
+	border: none;
+	padding: 5px;
 }
