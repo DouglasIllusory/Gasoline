@@ -1,7 +1,7 @@
 let emoji_output;
 let server_select;
 let db;
-let server_list = {}
+let server_list = new Set()
 
 window.onload = function(){
 	// Inicializar globais
@@ -38,14 +38,17 @@ function loadList(){
 	db.on('value', snapshot => {
 		const data = snapshot.val();
 
+		console.log(data)
+
 		for (key in data) {
-			if (key in server_list) continue;
+			if (server_list.has(key)) continue;
 
 			const node = document.createElement("option");
 			node.setAttribute("label", key);
 			node.setAttribute("name", key);
 
 			server_select.appendChild(node);
+			server_list.add(key)
 		}
 
 		// Atualizar lista de emojis
