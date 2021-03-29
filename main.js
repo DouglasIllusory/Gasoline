@@ -1,6 +1,7 @@
 let emoji_output;
 let server_select;
 let db;
+let server_list = {}
 
 window.onload = function(){
 	// Inicializar globais
@@ -35,25 +36,17 @@ function adicionar(){
 
 function loadList(){
 	db.on('value', snapshot => {
-		// Limpar lista
-		server_select.innerHTML = ""
+		const data = snapshot.val();
 
-		// Adicionar itens
-		snapshot.forEach(childSnapshot => {
-			const key = childSnapshot.key;
-			// const data = childSnapshot.val();
-			// console.log(`Chave: ${key} Data: ${data}`);
+		for (key in data) {
+			if (key in server_list) continue;
 
 			const node = document.createElement("option");
 			node.setAttribute("label", key);
 			node.setAttribute("name", key);
 
-			// NOTE(walle): Isso é necessario?
-			if(!server_select.querySelector(key)){
-				server_select.appendChild(node);
-			}
-			
-		});
+			server_select.appendChild(node);
+		}
 
 		// Atualizar lista de emojis
 		updateServerSelect();
