@@ -1,13 +1,24 @@
 let emoji_output;
 let server_select;
 let db;
-let server_list = new Set()
+let server_list = new Set();
+let url_params = new URLSearchParams(window.location.search);
+let url_group;
+let url_selected_group = "none";
 
 window.onload = function(){
 	// Inicializar globais
 	emoji_output = document.getElementById("emoji-output");
 	server_select = document.getElementById("server-select");
+	url_group = url_params.get('group');
 	db = firebase.database().ref("items");
+	//Checa se existe o parametro group na URL
+	if(url_group){
+		//Checa se o parametro existe no banco de dados
+		if(db.child(url_group)){
+			url_selected_group = url_group
+		}	
+	}
 	loadList();
 }
 
@@ -51,6 +62,8 @@ function loadList(){
 		for (key in data) {
 			// Se o valor já está na lista ignore
 			if (server_list.has(key)) continue;
+			//Se não foi listado ignore
+			if (snapshot.child(key).val().gjefiowefiwefjwefioj != true)continue;
 
 			const node = document.createElement("option");
 			node.setAttribute("label", key);
@@ -66,16 +79,36 @@ function loadList(){
 }
 
 function debug(){
-	// var db = firebase.database().ref("items");
 	var node = document.createElement("OPTION");
 	node.setAttribute("label", db)
 	server_select.appendChild(node);
-	//console.log(db)
+}
+
+function selectChanged(){
+	updateServerSelect();
+}
+
+function refresh(){
+	updateServerSelect();
 }
 
 function updateServerSelect(){
-	
-	const selected_server = server_select.options[server_select.selectedIndex].label;
+	let selected_server;
+
+	//Adiciona a opção privada na lista se ela existir no banco de dados e seleciona ela
+ 	if (url_selected_group == url_group){
+ 		selected_server = url_selected_group
+ 		const node = document.createElement("option");
+ 		node.setAttribute("label", url_selected_group);
+ 		node.setAttribute("selected", true);
+ 		server_select.appendChild(node);
+ 		//Não precisa mais dessa variável pois a opção foi adicionada na lista
+ 		url_selected_group = "none";
+ 	}
+ 	else{
+		selected_server = server_select.options[server_select.selectedIndex].label;
+	}
+
 	const emojis_db = db.child(selected_server);
 
 	// Limpar container de emoji
@@ -86,22 +119,28 @@ function updateServerSelect(){
 	emojis_db.on('value', snapshot => {
 
 		snapshot.forEach(childSnapshot => {
-			// let gifKey = childSnapshot.key;
+
+			const gifName = childSnapshot.key;
+			//"gjefiowefiwefjwefioj" é a chave para saber se um grupo é listado ou não, por isso ele não deve ser adicionado como um emote, pois não possúi um gif ou imagem
+			if (gifName === "gjefiowefiwefjwefioj")return;
+
 			const gifData = childSnapshot.val();
 
 			const node = document.createElement("div");
 			const node_img = document.createElement("img");
 
+
+
 			node.appendChild(node_img);
 			
 			node_img.setAttribute("src", gifData);
-
+			node.setAttribute("name", gifName);
 
 			node.onclick = () => copy(gifData, node);
 			node.classList.add('emoji-item');
 
 			document.getElementById("container").appendChild(node);
-			//console.log(`Data do gif: ${gifData}, chave do gif: ${gifKey}`)
+			
 		})
 	})
 }

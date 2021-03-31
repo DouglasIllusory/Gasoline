@@ -26,9 +26,10 @@
 	<div id="app">
 		<div id="header">
 			<span class="main-ui-theme" id="emoji-output">O link vai sair aqui, mas a cópia é automatica</span>
-			<select id="server-select" class="main-ui-theme" onchange="updateServerSelect()">
+			<select id="server-select" class="main-ui-theme" onchange="selectChanged()">
+				
 			</select>
-			<button class="main-ui-theme" onclick="updateServerSelect()">Refresh</button>
+			<button class="main-ui-theme" onclick="refresh()">Refresh</button>
 		</div>
 		<div id="container"></div>
 		<footer>Feito por Douglas em colaboração com Melo</footer>
