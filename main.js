@@ -64,7 +64,7 @@ function loadList(){
 			if (server_list.has(key)) continue;
 			//Se não foi listado ignore
 			if (snapshot.child(key).val().gjefiowefiwefjwefioj != true)continue;
-			if(snapshot.child(key).val().moderadormtofodataligadokk != true)continue;
+			if (snapshot.child(key).val().moderadormtofodataligadokk == true)continue;
 
 			const node = document.createElement("option");
 			node.setAttribute("label", key);
