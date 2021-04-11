@@ -64,6 +64,7 @@ function loadList(){
 			if (server_list.has(key)) continue;
 			//Se não foi listado ignore
 			if (snapshot.child(key).val().gjefiowefiwefjwefioj != true)continue;
+			//Se for o parametro de moderador ignore
 			if (snapshot.child(key).val().moderadormtofodataligadokk != true)continue;
 
 			const node = document.createElement("option");
