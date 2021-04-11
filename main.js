@@ -65,7 +65,7 @@ function loadList(){
 			//Se não foi listado ignore
 			if (snapshot.child(key).val().gjefiowefiwefjwefioj != true)continue;
 			//Se for o parametro de moderador ignore
-			if (snapshot.child(key).val().moderadormtofodataligadokk != true)continue;
+			//if (snapshot.child(key).val().moderadormtofodataligadokk != true)continue;
 
 			const node = document.createElement("option");
 			node.setAttribute("label", key);
@@ -125,7 +125,7 @@ function updateServerSelect(){
 			const gifName = childSnapshot.key;
 			//"gjefiowefiwefjwefioj" é a chave para saber se um grupo é listado ou não, por isso ele não deve ser adicionado como um emote, pois não possúi um gif ou imagem
 			if (gifName === "gjefiowefiwefjwefioj")return;
-
+			if (gifName === "moderadormtofodataligadokk")return;
 			const gifData = childSnapshot.val();
 
 			const node = document.createElement("div");
