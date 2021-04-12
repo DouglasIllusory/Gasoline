@@ -122,8 +122,7 @@ function updateServerSelect(){
 
 			const gifName = childSnapshot.key;
 			//"gjefiowefiwefjwefioj" é a chave para saber se um grupo é listado ou não, por isso ele não deve ser adicionado como um emote, pois não possúi um gif ou imagem
-			if (gifName === "gjefiowefiwefjwefioj")return;
-			if (gifName === "moderadormtofodataligadokk")return;
+			if (gifName === "gjefiowefiwefjwefioj" || gifName === "moderadormtofodataligadokk" || gifName === "odonodessegrupoeocaradessaidaquio")return;
 			const gifData = childSnapshot.val();
 
 			const node = document.createElement("div");
